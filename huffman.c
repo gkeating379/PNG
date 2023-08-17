@@ -1,24 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
+#include "huffman.h"
 
-struct CodeLength {
-    int Code;
-    int Len;
-};
-
-struct SFD {
-    int symbol;
-    int freq;
-    int depth;
-};
-
-struct Basket {
-    int total_freq;
-    struct SFD* content;
-    int content_len;
-};
 
 /**
  * Compares if basket a is more frequent than basket b 
@@ -206,29 +187,4 @@ void generate_codes_from_SFD(struct SFD sfds[], int len, struct CodeLength tree[
 
     free(bit_lengths);
     bit_lengths = NULL;
-}
-
-int main() {
-    int len = 288;
-    int bit_lengths[288]; 
-
-    for (int i = 0; i < len; i++) {
-        if (i < 144) {
-            bit_lengths[i] = 8;
-        } else if (i < 256) {
-            bit_lengths[i] = 9;
-        } else if (i < 280) {
-            bit_lengths[i] = 7;
-        } else {
-            bit_lengths[i] = 8;
-        }
-    }
-
-    struct CodeLength tree[288] = {{0}}; //286 is the number of symbols in the LL table, extra initalizing for distance table shouldn't be a huge issue
-    generate_codes_from_bl(bit_lengths, len, tree);
-    
-    for (int i = 0; i < 288; i++) {
-        printf("%d: Len %d Code %d\n", i, tree[i].Len, tree[i].Code);
-    }
-
 }
